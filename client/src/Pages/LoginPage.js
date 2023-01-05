@@ -24,7 +24,7 @@ export default function LoginPage() {
         try {
 
             if(!email || !password){
-                throw Error("Please enter your email and passxcsword")
+                throw Error("Please enter your email and password")
             }
 
             const loginData = JSON.stringify({email, password});

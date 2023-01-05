@@ -34,7 +34,7 @@ app.post("/login", async (req, res) => {
         const userLogin = await User.findOne({ email: email})
         
         if(!userLogin){
-            throw new Error(`Email is wrong u biatch`)
+            throw new Error(`Email is wrong asd u biatch`)
         }
 
         console.log(userLogin)

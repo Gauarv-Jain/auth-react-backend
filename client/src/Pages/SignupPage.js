@@ -57,7 +57,7 @@ export default function SignupPage() {
             const responseData = await response.json();
 
             if (response.status === 201) {
-                console.log("User Made Succesdssully")
+                console.log("User Made Success")
                 console.log(responseData)
             } else {
                 console.log(responseData.error);
