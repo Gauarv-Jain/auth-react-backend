@@ -60,7 +60,7 @@ export default function SignupPage() {
                 console.log("User Made Success")
                 console.log(responseData)
             } else {
-                console.log(responseData.error);
+                console.log(responseData);
             }
 
         } catch (error) {

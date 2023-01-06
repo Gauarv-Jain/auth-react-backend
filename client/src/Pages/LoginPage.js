@@ -29,7 +29,7 @@ export default function LoginPage() {
 
             const loginData = JSON.stringify({email, password});
 
-            const response = await fetch("/register", {
+            const response = await fetch("/login", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json",
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
             const respounceData = await response.json();
 
-            if(response.status == 200){
+            if(response.status === 200){
                 console.log("Success in login baby")
                 console.log(respounceData)
             }else{
@@ -75,13 +75,14 @@ export default function LoginPage() {
                     <div className="mb-2">
                         <label
                             for="password"
-                            name="password"
+                            
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Password
                         </label>
                         <input
                             type="password"
+                            name="password"
                             onChange={handler}
                             className="block w-full px-4 py-2 mt-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
                         />

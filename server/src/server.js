@@ -6,8 +6,11 @@ const User = require("./models/user")
 let bodyParser = require('body-parser');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const authenticate = require('./middelware/authenticate')
+const cookieParser = require('cookie-parser')
 
 const app = express()
+app.use(cookieParser())
 const poart = process.env.PORT || 4000
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,10 +29,17 @@ app.post("/register", async (req, res) => {
         const token = await userdata.generateAuthToken();
         console.log(token);
 
+        res.cookie("jwt", token, { 
+            expires: new Date(Date.now()+3000000),
+            httpOnly: true
+        })
+        //console.log(cookie)
+
         const toret  = await userdata.save()
         res.status(201).send(toret)
     }catch(err) {
-        res.status(500).json(err)
+        console.log(err.message)
+        res.status(500).json(err.message)
     }
 })
 
@@ -54,10 +64,20 @@ app.post("/login", async (req, res) => {
         const token = await userLogin.generateAuthToken();
         console.log(token);
 
+        res.cookie("jwt", token, { 
+            expires: new Date(Date.now()+3000000),
+            httpOnly: true
+        })
+
         res.status(200).json(userLogin)
     } catch (error) {
         res.status(500).json({error:error.message})
     }
+})
+
+app.get('/about', authenticate, (req, res) => {
+    console.log("hellow from about page");
+    res.status(200).send(req.rootUser);
 })
 
 app.listen(poart, () => {
