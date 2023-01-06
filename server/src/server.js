@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require("express")
 const path = require("path")
 require("./db/conn")
 const User = require("./models/user")
 let bodyParser = require('body-parser');
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const app = express()
 const poart = process.env.PORT || 4000
@@ -20,6 +22,10 @@ app.post("/register", async (req, res) => {
     try{
         console.log(req.body)
         const userdata = new User(req.body)
+
+        const token = await userdata.generateAuthToken();
+        console.log(token);
+
         const toret  = await userdata.save()
         res.status(201).send(toret)
     }catch(err) {
@@ -44,6 +50,9 @@ app.post("/login", async (req, res) => {
         if(!ismatch){
             throw new Error(`pass doesn not match`)
         }
+
+        const token = await userLogin.generateAuthToken();
+        console.log(token);
 
         res.status(200).json(userLogin)
     } catch (error) {
